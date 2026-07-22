@@ -1,7 +1,7 @@
 import express from "express";
 import "dotenv/config"
 import { connectDB } from "./lib/db.js";
-import {clerkMiddleWare} from "@clerk/express"
+import {clerkMiddleware} from "@clerk/express"
 import cors from "cors"
 const app = express();
 const port = process.env.PORT||"4000";
@@ -13,7 +13,7 @@ app.use(cors({
     credentials:true
 }))//Cross origin resource sharing ---- browser security rule
 
-app.use(clerkMiddleWare())//it is the middleware which integerate the clerk aurthentication into our express application
+app.use(clerkMiddleware())//it is the middleware which integerate the clerk aurthentication into our express application
 
 app.get("/health",(req,res)=>{
     res.status(200).json({
