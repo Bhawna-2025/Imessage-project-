@@ -5,8 +5,8 @@ import { verifyWebhook } from "@clerk/backend/webhooks";
 const router = express.Router();
 router.post("/", async (req, res) => {
   try {
-    const signin = process.env.CLERK_WEBHOOK_SIGNIN_SECRET;
-    if (!signin) {
+    const signingSecret = process.env.CLERK_WEBHOOK_SIGNIN_SECRET;
+    if (!signingSecret) {
       console.error("Webhook SIGNIN_SECRET is not defined");
       return;
     }
