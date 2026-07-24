@@ -6,12 +6,18 @@ import cors from "cors";
 import fs from "fs";
 import path from "path";
 import job from "./lib/cron.js";
+import clerkWebhook from "./webhooks/clerk.webhook.js";
 
 const app = express();
 const port = process.env.PORT || "4000";
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
 const publicDir = path.join(process.cwd(), "public");
+
+
+//webhooks
+app.use("/api/webhooks/clerk",express.raw({type:"application/json"}),clerkWebhook) //it is important that u don't parse the webhook event data , it should be in the raw format
+
 
 app.use(express.json()); //this line is used to parse the incoming requests with JSON payloads , it means express.json will convert the json into normal js object.
 
