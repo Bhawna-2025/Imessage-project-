@@ -8,6 +8,7 @@ import path from "path";
 import job from "./lib/cron.js";
 import clerkWebhook from "./webhooks/clerk.webhook.js";
 import authRoutes from "./routes/auth.Route.js";
+import messageRoutes from "./routes/message.routes.js";
 
 const app = express();
 const port = process.env.PORT || "4000";
@@ -38,6 +39,8 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/auth",authRoutes)
+app.use("/api/messages",messageRoutes)
+
 //if the public directory exists, serve the static files
 //this is for the production build
 if (fs.existsSync(publicDir)) {
