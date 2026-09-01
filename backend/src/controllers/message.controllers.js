@@ -116,7 +116,6 @@ export async function getUserForSidebar(req,res){
         res.status(201).json(newMessage)
 
 
-
     }catch(err){
         console.error("Error in sendMessages : ",err.message)
         res.status(500).json({
