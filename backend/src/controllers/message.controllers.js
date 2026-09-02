@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import Message from "../models/message.model.js";
 import { uploadChatMedia, hasImageKitConfig } from "../lib/imagekit.js";
+import { getReceiverSocketId } from "../lib/socket.js";
 
 
 export async function getUserForSidebar(req,res){
@@ -102,6 +103,7 @@ export async function getUserForSidebar(req,res){
            else imageUrl = url ;
         }
 
+    // Creating a new message  
         const newMessage = new Message({
             senderId,
             receiverId: userToChatId,
@@ -111,10 +113,14 @@ export async function getUserForSidebar(req,res){
         })
         await newMessage.save()
         
-        // todo: realtime with socketio
+    // Sent a message to reciever 
+        const recieverSocketId = getReceiverSocketId(receiverId)
+        // only sent the message in realtime if user is online
+        if(recieverSocketId){
+           io.to(recieverSocketId).emit("newMessage", newMessage)     
+        }
 
         res.status(201).json(newMessage)
-
 
     }catch(err){
         console.error("Error in sendMessages : ",err.message)
@@ -123,3 +129,5 @@ export async function getUserForSidebar(req,res){
         })
     }
  }
+
+ 
